@@ -84,14 +84,13 @@ $ git clone https://github.com/imperadorxs/todo-api && cd todo-api
 ```bash
 
 # Create a docker container postgres
-# For your security change the username and password
+# Change POSTGRES_PASSWORD
 # if your have other container using postres change the first external port to 5436 or greather
-$ docker run -d --name postgresql -e POSTGRESQL_PASSWORD=your_password -e POSTGRESQL_USERNAME=your_user -e POSTGRESQL_DATABASE=todo-api -p 5432:5432 postgres
+$ docker run --name todo-api -e POSTGRES_PASSWORD=your-password -p 5432:5432 -d postgres
 
 # Create a docker container redis
-# For your security change the username and password
 # if your have other container using redis change the first external port to 6380 or greather
-$ docker run -d --name redis -e REDIS_PASSWORD=your_password -p 6379:6379 redis:alpine
+$ docker run -d --name redis -e REDIS_PASSWORD= -p 6379:6379 redis:alpine
 
 # Install the dependencies
 $ yarn
