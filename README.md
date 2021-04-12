@@ -1,6 +1,4 @@
-<h1 align="center">
-  <img alt="Logo" src="https://imperadorxs-images.s3.amazonaws.com/todo-api.png" width="800px"/>
-</h1>
+![Logo](https://imperadorxs-images.s3.amazonaws.com/todo-api.png)
 
 <h3 align="center">
   API to register tasks todo
