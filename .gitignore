@@ -1,0 +1,9 @@
+node_modules/
+dist/
+tmp/*
+!tmp/uploads/
+tmp/uploads/*
+temp/
+ormconfig.json
+.env
+coverage
