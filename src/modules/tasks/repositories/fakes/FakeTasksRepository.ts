@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid';
+import { format } from 'date-fns';
 import Task from '../../infra/typeorm/entities/Task';
 import ITasksRepository from '../ITasksRepository';
 import ICreateTaskDTO from '../../dtos/ICreateTaskDTO';
@@ -13,7 +14,36 @@ class FakeTaskRepository implements ITasksRepository {
   }
 
   public async listTodayTasks(): Promise<Task[] | undefined> {
-    const { tasks } = this;
+    const todayDate = format(new Date(Date.now()), 'yyyy-MM-dd');
+    const tasks = this.tasks.filter(task => {
+      if (task.date !== null) {
+        const taskDate = format(task.date, 'yyyy-MM-dd');
+        return taskDate === todayDate;
+      }
+      return null;
+    });
+
+    return tasks || undefined;
+  }
+
+  public async ListScheduledTasks(): Promise<Task[] | undefined> {
+    const todayDate = format(new Date(Date.now()), 'yyyy-MM-dd');
+    const tasks = this.tasks.filter(task => {
+      if (task.date !== null) {
+        const taskDate = format(task.date, 'yyyy-MM-dd');
+        return taskDate !== todayDate;
+      }
+      return null;
+    });
+
+    return tasks || undefined;
+  }
+
+  public async ListTasksByType(
+    user_id: string,
+    type: number,
+  ): Promise<Task[] | undefined> {
+    const tasks = this.tasks.filter(task => task.type === type);
 
     return tasks || undefined;
   }

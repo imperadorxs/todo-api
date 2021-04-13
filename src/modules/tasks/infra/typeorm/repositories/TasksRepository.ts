@@ -1,5 +1,5 @@
 import { getRepository, Repository } from 'typeorm';
-import { startOfDay, endOfDay } from 'date-fns';
+import { startOfDay, endOfDay, subDays, addDays } from 'date-fns';
 
 import ITasksRepository from '@modules/tasks/repositories/ITasksRepository';
 import ICreateTaskDTO from '@modules/tasks/dtos/ICreateTaskDTO';
@@ -25,6 +25,31 @@ class TasksRepository implements ITasksRepository {
     const tasks = await this.ormRepository.query(
       `SELECT * FROM tasks WHERE user_id='${user_id}' AND date >= '${startTimeDay}' AND date <= '${endTimeDay}'`,
     );
+
+    return tasks || undefined;
+  }
+
+  public async ListScheduledTasks(
+    user_id: string,
+  ): Promise<Task[] | undefined> {
+    const today = new Date(Date.now());
+    const startTimeDay = startOfDay(today);
+    const endTimeDay = endOfDay(today);
+    const yeasterday = subDays(endTimeDay, 1).toISOString();
+    const tomorrow = addDays(startTimeDay, 1).toISOString();
+
+    const tasks = await this.ormRepository.query(
+      `SELECT * FROM tasks WHERE user_id='${user_id}' AND date <= '${yeasterday}' OR date >= '${tomorrow}'`,
+    );
+
+    return tasks || undefined;
+  }
+
+  public async ListTasksByType(
+    user_id: string,
+    type: number,
+  ): Promise<Task[] | undefined> {
+    const tasks = await this.ormRepository.find({ where: { type } });
 
     return tasks || undefined;
   }

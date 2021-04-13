@@ -3,13 +3,30 @@ import { celebrate, Joi, Segments } from 'celebrate';
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 import TasksController from '../controllers/TasksController';
 import ListTodayTasksController from '../controllers/ListTodayTasksController';
+import ListScheduledTasksController from '../controllers/ListScheduledTasksController';
+import ListTasksByTypeController from '../controllers/ListTasksByTypeController';
 
 const taskRouter = Router();
 const tasksController = new TasksController();
 const listTodayTasksController = new ListTodayTasksController();
+const listScheduledTasksController = new ListScheduledTasksController();
+const listTasksByTypeController = new ListTasksByTypeController();
+
 taskRouter.use(ensureAuthenticated);
 
 taskRouter.get('/', tasksController.get);
+
+taskRouter.get('/scheduled', listScheduledTasksController.get);
+
+taskRouter.get(
+  '/type',
+  celebrate({
+    [Segments.BODY]: {
+      type: Joi.number().required(),
+    },
+  }),
+  listTasksByTypeController.get,
+);
 
 taskRouter.get('/today', listTodayTasksController.get);
 

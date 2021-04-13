@@ -140,6 +140,8 @@ $ yarn start
 
 # Tasks
 - /tasks: [ GET ] Get all user tasks.
+- /tasks/scheduled: [ GET ] Get all user scheduled tasks.
+- /tasks/type: [ GET ] Get all user tasks by type.
 - /tasks/today: [ GET ] Get all user today tasks.
 - /tasks: [ POST ] Create a new task.
 - /tasks: [ DEL ] Delete one task.
