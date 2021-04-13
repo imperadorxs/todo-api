@@ -1,5 +1,9 @@
 {
   "name": "node-config",
+  "author": {
+    "name": "Allan Santiago",
+    "email": "allan75imp@gmail.com"
+  },
   "jest": {
     "verbose": true
   },
